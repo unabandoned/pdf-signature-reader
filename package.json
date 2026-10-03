@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@unabandoned/buffer": "^6.0.7",
-    "node-forge": "^1.3.1"
+    "node-forge": "^1.4.0"
   },
   "homepage": "https://github.com/unabandoned/pdf-signature-reader#readme",
   "bugs": {
