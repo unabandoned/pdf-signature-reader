@@ -1,5 +1,5 @@
 const forge = require('node-forge');
-const { Buffer } = require('../packages/buffer');
+const { Buffer } = require('@unabandoned/buffer');
 
 const VerifyPDFError = require('../VerifyPDFError');
 
@@ -41,7 +41,10 @@ const getMetaRegexMatch = (keyName) => (str) => {
 };
 
 const getSignatureMeta = (signedData) => {
-  const str = Buffer.isBuffer(signedData) ? signedData.toString() : signedData;
+  // Not `Buffer.isBuffer(signedData)`: that is the buffer polyfill's check, which
+  // only recognises its own instances, so a caller passing Node's native Buffer
+  // fell through to the string branch and crashed on `str.matchAll`.
+  const str = typeof signedData === 'string' ? signedData : signedData.toString();
   return ({
     reason: getMetaRegexMatch('Reason')(str),
     contactInfo: getMetaRegexMatch('ContactInfo')(str),

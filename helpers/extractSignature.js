@@ -1,4 +1,4 @@
-const { Buffer } = require('../packages/buffer');
+const { Buffer } = require('@unabandoned/buffer');
 
 const VerifyPDFError = require('../VerifyPDFError');
 const { getSignatureMeta, preparePDF } = require('./general');
