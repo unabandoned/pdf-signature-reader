@@ -1,5 +1,5 @@
 const forge = require('node-forge');
-const { Buffer } = require('../packages/buffer');
+const { Buffer } = require('@unabandoned/buffer');
 
 const VerifyPDFError = require('../VerifyPDFError');
 
