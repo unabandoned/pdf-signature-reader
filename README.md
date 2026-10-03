@@ -1,21 +1,32 @@
-## Verifying PDF signature
+# @unabandoned/pdf-signature-reader
 
-The signed PDF file has the public certificate embedded in it, so all we need to verify a PDF file is the file itself. This package is a clone from [ninja-labs-tech/verify-pdf](https://github.com/ninja-labs-tech/verify-pdf) with update on dependencies, cause we got issue when installing the package with node >= 16 & npm >= 8
+Verify the digital signature of a PDF.
+
+> A maintained fork of
+> [yudayahya/pdf-signature-reader](https://github.com/yudayahya/pdf-signature-reader),
+> which has had no commit or release since April 2024. Published as
+> [`@unabandoned/pdf-signature-reader`](https://www.npmjs.com/package/@unabandoned/pdf-signature-reader);
+> the API is unchanged from upstream. Upstream vendored a copy of `buffer@5.6.0`
+> into the package, where no dependency update could reach it — this fork depends
+> on [`@unabandoned/buffer`](https://github.com/unabandoned/buffer) instead, which
+> drops `base64-js` and `ieee754` from the tree along with it.
+
+The signed PDF file has the public certificate embedded in it, so all we need to verify a PDF file is the file itself.
 
 ## Installation
 
 ```
-npm i pdf-signature-reader
+npm i @unabandoned/pdf-signature-reader
 ```
 
 ## Importing
 
 ```javascript
 // CommonJS require
-const verifyPDF = require('pdf-signature-reader');
+const verifyPDF = require('@unabandoned/pdf-signature-reader');
 
 // ES6 imports
-import verifyPDF from 'pdf-signature-reader';
+import verifyPDF from '@unabandoned/pdf-signature-reader';
 ```
 
 ## Verifying
@@ -25,7 +36,7 @@ Verify the digital signature of the pdf and extract the certificates details
 ### Node.js
 
 ```javascript
-const verifyPDF = require('pdf-signature-reader');
+const verifyPDF = require('@unabandoned/pdf-signature-reader');
 const signedPdfBuffer = fs.readFileSync('yourPdf');
 
 const {
@@ -40,7 +51,7 @@ const {
 ### Browser
 
 ```javascript
-import verifyPDF from 'pdf-signature-reader';
+import verifyPDF from '@unabandoned/pdf-signature-reader';
 
 const readFile = (e) => {
     const file = e.target.files[0]
@@ -64,9 +75,9 @@ const readFile = (e) => {
 You can get the details of the certificate chain by using the following api.
 
 ```javascript
-const { getCertificatesInfoFromPDF } = require('pdf-signature-reader');  // require
+const { getCertificatesInfoFromPDF } = require('@unabandoned/pdf-signature-reader');  // require
 
-import { getCertificatesInfoFromPDF } from 'pdf-signature-reader';  // ES6
+import { getCertificatesInfoFromPDF } from '@unabandoned/pdf-signature-reader';  // ES6
 
 ```
 
@@ -86,3 +97,4 @@ const certs = getCertificatesInfoFromPDF(signedPdfBuffer);
 ## Credits
 
 * This incredible [NPM Package](https://github.com/ninja-labs-tech/verify-pdf) by ninja-labs-tech.
+* [yudayahya/pdf-signature-reader](https://github.com/yudayahya/pdf-signature-reader), the direct upstream of this fork.

@@ -1,0 +1,10 @@
+name: Renovate Config
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  renovate-config:
+    permissions:
+      contents: read
+    uses: unabandoned/.github/.github/workflows/reusable-renovate-config.yml@3259184528f6d99057e8f6e204790cf04b5efc2f # v1.2.1

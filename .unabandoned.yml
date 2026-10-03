@@ -1,0 +1,28 @@
+schema: 1
+
+package: "@unabandoned/pdf-signature-reader"
+
+upstream:
+  repo: yudayahya/pdf-signature-reader
+  reason: "unmaintained upstream — last commit and last release April 2024"
+
+summary: >-
+  Reads a PDF's embedded PKCS#7 signature and reports whether it verifies,
+  along with the signing certificates and the signature's metadata.
+
+why-forked: >-
+  it-tools reaches it from its PDF signature checker, so it ships in the bundle.
+  Upstream had vendored a copy of buffer@5.6.0 into the package itself, which no
+  Renovate run could ever update: 1795 lines of unmaintained code that Node
+  itself has long superseded, carried into every consumer's bundle. The fork
+  replaces it with @unabandoned/buffer, which drops two more transitive deps
+  (base64-js, ieee754) with it.
+
+used-by:
+  - consumer: "it-tools"
+    purpose: >-
+      backs the PDF signature checker tool, via the default verifyPDF export
+
+status: active
+
+tags: [pdf, signature, pkcs7, verification, security]
