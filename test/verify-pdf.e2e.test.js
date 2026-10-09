@@ -1,7 +1,8 @@
 // End-to-end tests over a document this suite signs itself.
 //
 // These exist because of the dependency swap: upstream vendored buffer@5.6.0
-// into the package, and this fork depends on @unabandoned/buffer instead. The
+// into the package, and this fork uses the platform's `buffer` module instead
+// (native in Node, the bundler's shim in a browser). The
 // signature check is byte-exact — it hashes two slices of the file and compares
 // that digest with the one inside the PKCS#7 blob — so if the replacement
 // differed in `slice`, `concat` or hex/latin1 handling by a single byte, every

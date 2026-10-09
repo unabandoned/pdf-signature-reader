@@ -31,13 +31,11 @@ test('VerifyPDFError carries a type', () => {
 });
 
 test('preparePDF normalises whatever it is given into a buffer', () => {
-  // Note the copy: preparePDF's `Buffer.isBuffer` is the polyfill's, which only
-  // recognises its own instances, so Node's native Buffer takes the `Buffer.from`
-  // branch. That copy is load-bearing — it is what makes everything downstream,
-  // which calls polyfill methods, work for an ordinary `fs.readFileSync` caller.
+  // helpers use require('buffer'), which in Node is the native Buffer, so an
+  // ordinary `fs.readFileSync` result is recognised and passed through as is.
   const native = Buffer.from('%PDF-1.7');
-  const prepared = preparePDF(native);
-  assert.ok(prepared.equals(native), 'the bytes survive intact');
+  assert.equal(preparePDF(native), native, 'a native Buffer is used without a copy');
+  assert.equal(preparePDF(new Uint8Array([0x25, 0x50])).toString(), '%P', 'a Uint8Array becomes a buffer');
   assert.equal(preparePDF('%PDF-1.7').toString(), '%PDF-1.7', 'a string becomes a buffer');
 });
 
@@ -106,12 +104,10 @@ test('verifyPDF returns a failure object when extraction fails', () => {
   assert.ok(result.error instanceof Error, 'carries the underlying error');
 });
 
-test('the buffer polyfill this package uses is the maintained fork', () => {
-  // helpers/*.js import Buffer from @unabandoned/buffer rather than the copy of
-  // buffer@5.6.0 that used to sit in packages/. If that import regresses, the
-  // package quietly carries 1795 lines of unmaintained code again.
-  const { Buffer: ForkBuffer } = require('@unabandoned/buffer');
-  assert.equal(typeof ForkBuffer.from, 'function');
-  assert.ok(ForkBuffer.from('ok').equals(Buffer.from('ok')),
-    'the fork and node agree on what a Buffer is');
+test('Buffer comes from the platform, not a bundled polyfill', () => {
+  // Node provides Buffer natively; in a browser, the bundler supplies the
+  // `buffer` shim. A runtime dependency on a polyfill would ship a second
+  // Buffer implementation into Node consumers' trees for nothing.
+  const { dependencies } = require('../package.json');
+  assert.deepEqual(Object.keys(dependencies).filter((d) => /buffer/.test(d)), []);
 });

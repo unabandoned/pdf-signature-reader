@@ -15,7 +15,8 @@ why-forked: >-
   Upstream had vendored a copy of buffer@5.6.0 into the package itself, which no
   Renovate run could ever update: 1795 lines of unmaintained code that Node
   itself has long superseded, carried into every consumer's bundle. The fork
-  replaces it with @unabandoned/buffer, which drops two more transitive deps
+  uses the platform's `buffer` module instead (native in Node, the bundler's
+  shim in a browser), which drops two more transitive deps
   (base64-js, ieee754) with it.
 
 used-by:

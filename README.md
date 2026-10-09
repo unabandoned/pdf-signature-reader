@@ -7,9 +7,10 @@ Verify the digital signature of a PDF.
 > which has had no commit or release since April 2024. Published as
 > [`@unabandoned/pdf-signature-reader`](https://www.npmjs.com/package/@unabandoned/pdf-signature-reader);
 > the API is unchanged from upstream. Upstream vendored a copy of `buffer@5.6.0`
-> into the package, where no dependency update could reach it — this fork depends
-> on [`@unabandoned/buffer`](https://github.com/unabandoned/buffer) instead, which
-> drops `base64-js` and `ieee754` from the tree along with it.
+> into the package, where no dependency update could reach it — this fork uses
+> the platform's `buffer` module instead: Node's native `Buffer`, or in a browser
+> the shim your bundler provides for `buffer`. It has no runtime dependency
+> beyond `node-forge`.
 
 The signed PDF file has the public certificate embedded in it, so all we need to verify a PDF file is the file itself.
 
@@ -49,6 +50,11 @@ const {
 ```
 
 ### Browser
+
+The package does `require('buffer')`. browserify and webpack 4 substitute a
+browser shim automatically; with Vite or webpack 5, alias `buffer` to a shim
+such as [`@unabandoned/buffer`](https://github.com/unabandoned/buffer)
+(`resolve.alias` / `resolve.fallback`).
 
 ```javascript
 import verifyPDF from '@unabandoned/pdf-signature-reader';
